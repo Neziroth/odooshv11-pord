@@ -12,7 +12,6 @@
 			</field>
 		</record>
 
-
 		<record id="x_product_template_stock" model="ir.ui.view">
 			<field name="name">product.template.inherit.form</field>
 			<field name="model">product.template</field>
@@ -21,9 +20,60 @@
 				<xpath expr="//page[@name='inventory']/group[last()]" position="after">
 					
 					<group string="Inventory by Location">
-						<field name="stock_quants"/>
+						<field name="stock_quants">
+							<tree>
+								<field name="location_id"/>
+								<field name="unreserved_qty_on_hand"/>
+								<field name="forecasted_qty"/>
+								<field name="reserved_quantity"/>
+								<field name="quantity"/>
+							</tree>
+						</field>
+					</group>
+					<group string="Incoming Inventory">
+						<field name="stock_moves">
+							<tree>
+								<field name="location_dest_id"/>
+								<field name="product_uom_qty"/>
+								<field name="date_expected"/>
+								<field name="date"/>
+								<field name="origin"/>
+								<field name="state"/>
+							</tree>
+						</field>
 					</group>
 					
+				</xpath>
+			</field>
+		</record>
+
+		<record id="stock.stock_move_action" model="ir.actions.act_window">
+			<field name="name">Stock Moves</field>
+			<field name="res_model">stock.move</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_type">form</field>
+			<field name="view_id" ref="stock.view_move_tree"/>
+			<field name="search_view_id" ref="stock.view_move_search"/>
+			<field name="context">{'search_default_future' : 1, 'search_default_incoming' : 1, 'search_default_by_product': 1, 'search_default_groupby_dest_location_id': 1}</field>
+			<field name="domain" eval="[]"/>
+			<field name="help" type="html">
+			  <p class="oe_view_nocontent_create">
+				Click to create a stock movement.
+			  </p><p>
+				This menu gives you the full traceability of inventory
+				operations on a specific product. You can filter on the product
+				to see all the past or future movements for the product.
+			  </p>
+			</field>
+		</record>
+
+		<record id="x_stock_move_search_view_add" model="ir.ui.view">
+			<field name="name">x_stock_move_search_view_add</field>
+			<field name="model">stock.move</field>
+			<field name="inherit_id" ref="stock.view_move_search"/>
+			<field name="arch" type="xml">
+				<xpath expr="//search/separator[1]" position="after">
+					<filter string="Today and After" name="today_after" domain="[('date_expected', '>', datetime.datetime.today().replace(hour=0,minute=0,second=0).strftime('%Y-%m-%d %H:%M:%S'))]"/>
 				</xpath>
 			</field>
 		</record>

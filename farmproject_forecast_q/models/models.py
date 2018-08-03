@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from datetime import datetime
 
 class stockQuantInherit(models.Model):
 	_inherit = 'stock.quant'
@@ -30,9 +31,19 @@ class productTemplateInherit(models.Model):
 	_inherit = 'product.template'
 
 	stock_quants = fields.Many2many('stock.quant', 'Stock Quants', compute='_get_stock_quants')
+	stock_moves = fields.Many2many('stock.move', 'Stock Moves', compute='_get_stock_moves')
 
 	@api.multi
 	def _get_stock_quants(self):
 		self.stock_quants = self.product_variant_id.stock_quant_ids.search([
 			('location_id.usage', '=', 'internal'),
 			('product_id', '=', self.product_variant_id.id)])
+
+	@api.multi
+	def _get_stock_moves(self):
+		self.stock_moves = self.product_variant_id.stock_move_ids.search([
+			('state','!=','done'),
+			('product_id', '=', self.product_variant_id.id),
+			('location_id.usage', 'not in', ('internal', 'transit')),
+			('location_dest_id.usage', 'in', ('internal', 'transit'))])
+		
