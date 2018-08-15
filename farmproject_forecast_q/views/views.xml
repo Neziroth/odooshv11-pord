@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="x_stock_by_location_search_view" model="ir.ui.view">
+		<field name="name">Stock By Locations</field>
+		<field name="model">stock.by.location</field>
+		<field name="arch" type="xml">
+			<search string="Stock By Locations">
+				<group expand='0' string='Group by...'>
+					<filter string='Location' name="locationgroup" domain="[]" context="{'group_by': 'location_id'}"/>
+					<filter string='Product' name="productgroup" context="{'group_by': 'product_id'}"/>
+			   </group>
+			</search>
+		</field>
+	</record>
+
+	<record id="x_stock_by_location_form_view" model="ir.ui.view">
+		<field name="name">Stock By Locations</field>
+		<field name="model">stock.by.location</field>
+		<field name="arch" type="xml">
+			<form string="Inventory By Location" create="false" edit="false" delete="false">
+				<group>
+					<field name="product_id"/>
+					<field name="location_id"/>
+					<field name="forecasted_qty"/>
+					<field name="on_hand_qty"/>
+					<field name="incoming_qty"/>
+					<field name="reserved_qty"/>
+					<field name="unreserved_qty_on_hand"/>
+				</group>
+			</form>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="view_stock_by_location_tree">
+		<field name="name">stock.by.location.tree</field>
+		<field name="model">stock.by.location</field>
+		<field name="arch" type="xml">
+			<tree string="Stock By Location" create="0" edit="0">
+				<field name="product_id"/>
+				<field name="location_id"/>
+				<field name="forecasted_qty"/>
+				<field name="on_hand_qty"/>
+				<field name="incoming_qty"/>
+				<field name="reserved_qty"/>
+				<field name="unreserved_qty_on_hand"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.actions.act_window" id="x_stock_by_location"> 
+		<field name="name">Stock By Locations</field>
+		<field name="res_model">stock.by.location</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+		<field name="context">{'group_by': ['product_id']}</field>
+	</record>
+
+</odoo>
