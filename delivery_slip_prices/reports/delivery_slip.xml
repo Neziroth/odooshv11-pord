@@ -1,0 +1,71 @@
+<odoo>
+    <template id="x_report_delivery_slip" inherit_id="stock.report_delivery_document">
+        <xpath expr="//table[contains(@t-if,'o.state!=')]/thead/tr/th[last()]" position="after">
+            <th class="text-right"><strong>Price</strong></th>
+            <th class="text-right"><strong>Line Total</strong></th>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state==')]/thead/tr/th[last()]" position="after">
+            <th class="text-right"><strong>Price</strong></th>
+            <th class="text-right"><strong>Line Total</strong></th>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state!=')]" position="before">
+            <t t-set="price_total" t-value="0.0"/>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state==')]" position="before">
+            <t t-set="price_total" t-value="0.0"/>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state!=')]/tbody/tr/td[last()]" position="after">
+            <td class="text-right">
+                <span t-field="move.sale_line_id.price_unit"/>
+            </td>
+            <t t-set="sub_total" t-value="move.sale_line_id.price_unit * move.product_uom_qty"/>
+            <t t-set="price_total" t-value="price_total + sub_total"/>
+            <td class="text-right">
+                <span t-esc="sub_total"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state==')]/tbody/tr/td[last()]" position="after">
+            <td class="text-right">
+                <span t-field="move_line.move_id.sale_line_id.price_unit"/>
+            </td>
+            <t t-set="sub_total" t-value="move_line.move_id.sale_line_id.price_unit * move_line.qty_done"/>
+            <t t-set="price_total" t-value="price_total + sub_total"/>
+            <td class="text-right">
+                <span t-esc="sub_total"/>
+            </td>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state!=')]" position="after">
+            <div class="clearfix">
+                <div class="row" name="total">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed" style="min-width: 200px;max-width: 350px;" t-if="o.state!='done'">
+                            <tr class="border-black">
+                                <td class="text-right"><strong>Total</strong></td>
+                                <td class="text-right">
+                                    <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//table[contains(@t-if,'o.state==')]" position="after">
+            <div class="clearfix">
+                <div class="row" name="total">
+                    <div class="col-xs-4 pull-right">
+                        <table class="table table-condensed" style="min-width: 200px;max-width: 350px;" t-if="o.move_line_ids and o.state=='done'">
+                            <tr class="border-black">
+                                <td class="text-right"><strong>Total</strong></td>
+                                <td class="text-right">
+                                    <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        
+    </template>
+</odoo>
