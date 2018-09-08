@@ -117,7 +117,7 @@ class StockMove(models.Model):
         if qty_to_take_on_candidates == 0:
             move.write({
                 'value': -tmp_value if not quantity else move.value or -tmp_value,  # outgoing move are valued negatively
-                'price_unit': -tmp_value / move.product_qty or 1.0, # move.product_qty cannot be 0.0, only line changed in whole method.
+                'price_unit': -tmp_value / move.product_qty if move.product_qty != 0.0 else 1.0, # move.product_qty cannot be 0.0, only line changed in whole method.
             })
         elif qty_to_take_on_candidates > 0:
             last_fifo_price = new_standard_price or move.product_id.standard_price
