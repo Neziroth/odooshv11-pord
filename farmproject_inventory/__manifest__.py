@@ -12,7 +12,7 @@ The Farm Project: Purchase Inventory Customizations
     'website': "https://www.odoo.com",
     'category': 'Custom Development',
     'version': '0.1',
-    'depends': ['stock', 'purchase'],
+    'depends': ['stock', 'purchase', 'stock_account'],
     'data': [
         'views/stock_picking_views.xml',
     ],
