@@ -42,7 +42,7 @@ class productTemplateInherit(models.Model):
 	@api.multi
 	def _get_stock_moves(self):
 		self.stock_moves = self.product_variant_id.stock_move_ids.search([
-			('state','!=','done'),
+			('state','!=',['done','cancel']),
 			('product_id', '=', self.product_variant_id.id),
 			('location_id.usage', 'not in', ('internal', 'transit')),
 			('location_dest_id.usage', 'in', ('internal', 'transit'))])
