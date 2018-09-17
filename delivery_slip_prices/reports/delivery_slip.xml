@@ -25,7 +25,7 @@
             </td>
             <t t-set="sub_total" t-value="0.0"/>
             <t t-if="move.sale_line_id">
-                <t t-set="sub_total" t-value="move.sale_line_id.price_unit * move.reserved_availability"/>
+                <t t-set="sub_total" t-value="move.sale_line_id.price_unit / move.sale_line_id.product_uom.factor_inv * move.reserved_availability"/>
             </t>
             <t t-set="price_total" t-value="price_total + sub_total"/>
             <td class="text-right">
@@ -43,7 +43,7 @@
             </td>
             <t t-set="sub_total" t-value="0.0"/>
             <t t-if="move_line.move_id.sale_line_id">
-                <t t-set="sub_total" t-value="move_line.move_id.sale_line_id.price_unit * move_line.qty_done"/>
+                <t t-set="sub_total" t-value="move_line.move_id.sale_line_id.price_unit / move_line.move_id.sale_line_id.product_uom.factor_inv * move_line.qty_done"/>
             </t>
             <t t-set="price_total" t-value="price_total + sub_total"/>
             <td class="text-right">
