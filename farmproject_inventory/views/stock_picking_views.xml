@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="stock_picking_form_inherit_farmproject_inventory" model="ir.ui.view">
+	    <field name="name">stock.picking.form.inherit.farmproject_inventory</field>
+	    <field name="model">stock.picking</field>
+	    <field name="inherit_id" ref="stock.view_picking_form"/>
+	    <field name="arch" type="xml">
+	    	<xpath expr="//field[@name='move_lines']/tree//field[@name='product_uom']" position="replace">
+	    		<field name="purchase_uom" readonly="1"/>
+	    	</xpath>
+	    	<xpath expr="//field[@name='move_lines']/tree//field[@name='product_uom_qty']" position="replace">
+	    		<field name="product_uom_po_qty"/>
+	    	</xpath>
+	    	<xpath expr="//field[@name='move_lines']/tree//field[@name='quantity_done']" position="after">
+	    		<field name="po_qty_done"/>
+	    	</xpath>
+	    	<xpath expr="//field[@name='move_lines']/tree//field[@name='quantity_done']" position="attributes">
+	    		<attribute name="invisible">True</attribute>
+	    	</xpath>
+	    </field>
+	</record>
+</odoo>
