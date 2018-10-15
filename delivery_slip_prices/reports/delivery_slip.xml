@@ -58,7 +58,7 @@
                             <tr class="border-black">
                                 <td class="text-right"><strong>Total</strong></td>
                                 <td class="text-right">
-                                    <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
+                                    <span t-esc="round(price_total)" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
                                 </td>
                             </tr>
                         </table>
@@ -74,7 +74,7 @@
                             <tr class="border-black">
                                 <td class="text-right"><strong>Total</strong></td>
                                 <td class="text-right">
-                                    <span t-esc="price_total" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
+                                    <span t-esc="round(price_total)" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
                                 </td>
                             </tr>
                         </table>
