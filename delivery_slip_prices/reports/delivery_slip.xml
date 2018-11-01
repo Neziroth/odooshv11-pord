@@ -17,7 +17,7 @@
         <xpath expr="//table[contains(@t-if,'o.state!=')]/tbody/tr/td[last()]" position="after">
             <td class="text-right">
                 <t t-if="move.sale_line_id">
-                    <t t-if="move.sale_line_id.product_uom.factor_inv == move.product_uom_id.factor_inv">
+                    <t t-if="move.sale_line_id.product_uom.factor_inv == move.product_uom.factor_inv">
                         <span t-esc="move.sale_line_id.price_unit" t-options='{"widget": "monetary", "display_currency": o.sale_id.currency_id}'/>
                     </t>
                     <t t-else="">
@@ -30,7 +30,7 @@
             </td>
             <t t-set="sub_total" t-value="0.0"/>
             <t t-if="move.sale_line_id">
-                <t t-if="move.sale_line_id.product_uom.factor_inv == move.product_uom_id.factor_inv">
+                <t t-if="move.sale_line_id.product_uom.factor_inv == move.product_uom.factor_inv">
                     <t t-set="sub_total" t-value="round(move.sale_line_id.price_unit * move.reserved_availability,2)"/>
                 </t>
                 <t t-else="">
